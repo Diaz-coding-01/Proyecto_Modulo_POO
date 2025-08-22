@@ -37,7 +37,7 @@ public class ControllerAutor {
             }
             return ResponseEntity.ok(Map.of(
                     "status", "Exitoso",
-                    "message", "Libro registrado",
+                    "message", "Autor registrado",
                     "data", registrado
             ));
         } catch (IllegalArgumentException e) {

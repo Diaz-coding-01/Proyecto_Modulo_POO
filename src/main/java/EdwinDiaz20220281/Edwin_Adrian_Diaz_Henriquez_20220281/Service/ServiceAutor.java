@@ -25,7 +25,7 @@ public class ServiceAutor {
     public DTOAutor registrarAutor(@Valid DTOAutor dtoAutores) {
         if (dtoAutores == null) { throw new IllegalArgumentException("Todos los campos son obligatorios"); }
 
-        EntityAutor registrado = objRepoAutores.save(convertirAEntidadAutores(dtoAutores));
+        EntityAutor registrado = objRepoAutores.save(convertirAEntityAutores(dtoAutores));
         return convertirADTOAutores(registrado);
     }
 
@@ -40,7 +40,7 @@ public class ServiceAutor {
         return objDTOAutores;
     }
 
-    private EntityAutor convertirAEntidadAutores(DTOAutor dtoAutores){
+    private EntityAutor convertirAEntityAutores(DTOAutor dtoAutores){
         EntityAutor objEntidadAutores = new EntityAutor();
         objEntidadAutores.setNombre(dtoAutores.getNombre());
         objEntidadAutores.setApellido(dtoAutores.getApellido());

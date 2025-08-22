@@ -1,10 +1,12 @@
 package EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Service;
 
+import EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Entity.EntityAutor;
 import EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Entity.EntityLibro;
 import EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Models.DTO.DTOAutor;
 import EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Models.DTO.DTOLibro;
 import EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Repository.RepositoryLibro;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +22,36 @@ public class ServiceLibro {
     public List<DTOLibro> obtenerLibros() {
         List<EntityLibro> libros = objRepoLibros.findAll();
         return libros.stream().map(this::convertirADTOLibros).collect(Collectors.toList());
+    }
+
+    public DTOLibro registrarLibro(@Valid DTOLibro dtoLibro) {
+        if (dtoLibro == null) { throw new IllegalArgumentException("Todos los campos son obligatorios"); }
+
+        EntityLibro registrado = objRepoLibros.save(convertirAEntityLibros(dtoLibro));
+        return convertirADTOLibros(registrado);
+    }
+
+    public DTOLibro actualizarLibro(@Valid DTOLibro dtoLibro, Long id){
+        EntityLibro existeLibro = objRepoLibros.findById(id).orElseThrow(() -> new IllegalArgumentException("Libro no encontrado"));
+
+        //No se actualiza el ID
+        existeLibro.setTitulo(dtoLibro.getTitulo());
+        existeLibro.setIsbn(dtoLibro.getIsbn());
+        existeLibro.setAño_publicacion(dtoLibro.getAño_publicacion());
+        existeLibro.setGenero(dtoLibro.getGenero());
+        existeLibro.setAutor_id(dtoLibro.getAutor_id());
+
+        EntityLibro registrarLibro = objRepoLibros.save(existeLibro);
+
+        return convertirADTOLibros(registrarLibro);
+    }
+
+    public boolean eliminarLibro(Long id){
+        EntityLibro existeLibro = objRepoLibros.findById(id).orElse(null);
+        if(existeLibro == null){ return false; }
+
+        objRepoLibros.deleteById(id);
+        return true;
     }
 
     private DTOLibro convertirADTOLibros(EntityLibro entityLibros){
