@@ -1,7 +1,7 @@
-package Controller;
+package EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Controller;
 
-import Models.DTO.DTOAutores;
-import Service.ServiceAutores;
+import EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Models.DTO.DTOAutor;
+import EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Service.ServiceAutor;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,23 +11,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 
+
 @RestController
-@RequestMapping("/api/autor")
+@RequestMapping("/autor")
 @Validated
-public class ControllerAutores {
+public class ControllerAutor {
     @Autowired
-    private ServiceAutores objServiceAutores;
+    private ServiceAutor objServiceAutores;
 
     //READ
     @GetMapping("/obtenerAutores")
-    public List<DTOAutores> obtenerAutores(){
+    public List<DTOAutor> obtenerAutores(){
         return objServiceAutores.obtenerAutores();
     }
 
     @PostMapping("/registrarAutor")
-    public ResponseEntity<?> registrarAutor(@Valid @RequestBody DTOAutores dtoAutores){
+    public ResponseEntity<?> registrarAutor(@Valid @RequestBody DTOAutor dtoAutores){
         try{
-            DTOAutores registrado = objServiceAutores.registrarAutor(dtoAutores);
+            DTOAutor registrado = objServiceAutores.registrarAutor(dtoAutores);
             if (registrado == null){
                 return ResponseEntity.internalServerError().body(Map.of(
                         "status: ", "No se pudo registrar el autor",

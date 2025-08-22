@@ -1,4 +1,4 @@
-package Entity;
+package EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Entity;
 
 import jakarta.persistence.*;
 import lombok.EqualsAndHashCode;
@@ -7,10 +7,11 @@ import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Table(name = "AUTORES")
+@Table(name = "LIBROS")
 @Getter @Setter @ToString @EqualsAndHashCode
-public class EntityLibros {
-    @Id @Column(name = "ID",insertable = false , updatable = false)
+public class EntityLibro {
+    @Id
+    @Column(name = "ID",insertable = false , updatable = false)
     @SequenceGenerator(name = "seq_libro", sequenceName = "seq_libro", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_libro")
     private Long id;
@@ -27,6 +28,6 @@ public class EntityLibros {
     @Column(name = "GENERO", length = 50)
     private String genero;
 
-    @ManyToOne @Column(name = "AUTOR_ID")
-    private EntityAutores autor_id;
+    @ManyToOne @JoinColumn(name = "AUTOR_ID")
+    private EntityAutor autor_id;
 }

@@ -1,8 +1,8 @@
-package Service;
+package EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Service;
 
-import Entity.EntityAutores;
-import Models.DTO.DTOAutores;
-import Repository.RepositoryAutores;
+import EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Entity.EntityAutor;
+import EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Models.DTO.DTOAutor;
+import EdwinDiaz20220281.Edwin_Adrian_Diaz_Henriquez_20220281.Repository.RepositoryAutor;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,24 +13,24 @@ import java.util.stream.Collectors;
 
 @Service
 @Transactional
-public class ServiceAutores {
+public class ServiceAutor {
     @Autowired
-    private RepositoryAutores objRepoAutores;
+    private RepositoryAutor objRepoAutores;
 
-    public List<DTOAutores> obtenerAutores() {
-        List<EntityAutores> autores = objRepoAutores.findAll();
+    public List<DTOAutor> obtenerAutores() {
+        List<EntityAutor> autores = objRepoAutores.findAll();
         return autores.stream().map(this::convertirADTOAutores).collect(Collectors.toList());
     }
 
-    public DTOAutores registrarAutor(@Valid DTOAutores dtoAutores) {
+    public DTOAutor registrarAutor(@Valid DTOAutor dtoAutores) {
         if (dtoAutores == null) { throw new IllegalArgumentException("Todos los campos son obligatorios"); }
 
-        EntityAutores registrado = objRepoAutores.save(convertirAEntidadAutores(dtoAutores));
+        EntityAutor registrado = objRepoAutores.save(convertirAEntidadAutores(dtoAutores));
         return convertirADTOAutores(registrado);
     }
 
-    private DTOAutores convertirADTOAutores(EntityAutores entidadAutores) {
-        DTOAutores objDTOAutores = new DTOAutores();
+    private DTOAutor convertirADTOAutores(EntityAutor entidadAutores) {
+        DTOAutor objDTOAutores = new DTOAutor();
         objDTOAutores.setId(entidadAutores.getId());
         objDTOAutores.setNombre(entidadAutores.getNombre());
         objDTOAutores.setApellido(entidadAutores.getApellido());
@@ -40,8 +40,8 @@ public class ServiceAutores {
         return objDTOAutores;
     }
 
-    private EntityAutores convertirAEntidadAutores(DTOAutores dtoAutores){
-        EntityAutores objEntidadAutores = new EntityAutores();
+    private EntityAutor convertirAEntidadAutores(DTOAutor dtoAutores){
+        EntityAutor objEntidadAutores = new EntityAutor();
         objEntidadAutores.setNombre(dtoAutores.getNombre());
         objEntidadAutores.setApellido(dtoAutores.getApellido());
         objEntidadAutores.setNacionalidad(dtoAutores.getNacionalidad());
